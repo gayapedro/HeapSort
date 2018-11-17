@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 void aplicarMaxHeap(int sequencia[], int n, int i){
     int maiorElemento, filhoEsquerda, filhoDireita, aux;
@@ -33,18 +35,41 @@ void heapSort(int sequencia[], int n){
     }
 }
 
+void shuffle(int *array, size_t n)
+{
+    if (n > 1) 
+    {
+        size_t i;
+        for (i = 0; i < n - 1; i++) 
+        {
+          size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
+          int t = array[j];
+          array[j] = array[i];
+          array[i] = t;
+        }
+    }
+}
+
 int main(){
-    int sequencia[6] = {1,12,9,5,6,10},tam;
+    int sequencia[2000],tam;
+    clock_t t;
+    for(int i=0;i<2000;i++){
+       sequencia[i] = i+1; 
+    }
     tam = sizeof(sequencia)/sizeof(sequencia[0]);
-    printf("Sequencia desordenada :");
+    shuffle(sequencia,tam);
+    printf("Sequencia desordenada:\n");
     for(int i=0;i<tam;i++){
-        printf(" %d",sequencia[i]);
+        printf("%d\n",sequencia[i]);
     }
+    t = clock();
     heapSort(sequencia,tam);
-    printf("\nSequencia ordenada    :");
+    t = clock() - t;
+    double time_taken = ((double)t)/CLOCKS_PER_SEC;
+    printf("Sequencia ordenada:\n");
     for(int i=0;i<tam;i++){
-        printf(" %d",sequencia[i]);
+        printf("%d\n",sequencia[i]);
     }
-    printf("\n");
+    printf("Tempo de execução: %f segundos\n",time_taken);
     return 0;
 }
